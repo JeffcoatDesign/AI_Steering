@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-public class Wanderer : Kinematic
+public class KinematicWanderer : Kinematic
 {
-    Wander myMoveType;
+    KinematicWander myMoveType;
+    Align myRotateType;
 
     // Start is called before the first frame update
     void Start()
     {
-        myMoveType = new Wander();
+        myMoveType = new KinematicWander();
         myMoveType.character = this;
+
+        myRotateType = new Face();
+        myRotateType.character = this;
+        myRotateType.target = myTarget;
     }
 
     // Update is called once per frame
@@ -19,7 +24,7 @@ public class Wanderer : Kinematic
     {
         steeringUpdate = new SteeringOutput();
         steeringUpdate.linear = myMoveType.getSteering().linear;
-        steeringUpdate.angular = myMoveType.getSteering().angular;
+        steeringUpdate.angular = myRotateType.getSteering().angular;
         base.Update();
     }
 }
